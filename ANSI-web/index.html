@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>ANSI Web Editor</title>
+        <link rel="stylesheet" href="">
+        <style type="text/css">
+            html{
+                height: 100%;
+            }
+            body{
+                height: 100%;
+                margin: 0 auto;
+            }
+            button {
+                color: white;
+                border: none;
+                cursor: pointer;
+                font-size: 12px;
+                margin: 1px;
+            }
+            .select_color{
+                padding: 10px;
+            }
+            .ansi-line{
+                font-size: 0;
+            }
+            .ansi-line span{
+                font-size: 20px;
+            }            
+            .ansi-block{
+                background-color:   black;
+                font: 20px "細明體","AR PL UMing TW","MS Mincho","SimHei",monospace;
+                line-height: 100%;
+                color:silver;
+                width:800px;
+                overflow:hidden;
+                white-space: nowrap;
+                margin:10px 10px auto;
+                position:relative;
+                z-index:1;
+            }
+            .sign{
+                font: 20px "細明體","AR PL UMing TW","MS Mincho","SimHei",monospace;
+                line-height: 100%;
+                padding:0px;
+            }
+            .block{
+                margin-right:20px;
+            }
+            .blockl{
+                transform:translateX(0px);
+                margin:0;
+            }
+            .blockr{
+                transform:translateX(10px);
+                margin:0;
+            }
+            .rtl{
+                direction: rtl;
+            }
+            .ansi-block div{
+                height:20px;
+                overflow:hidden;
+                position:relative;
+                cursor: crosshair;
+            }
+            .ansi-block .select_block{
+                position:absolute;
+                width:10px;
+                height:20px;
+                overflow:hidden;
+                z-index:5;
+                border:1px solid blue;
+                -moz-box-sizing:    border-box;
+                -webkit-box-sizing: border-box;
+                box-sizing:         border-box;
+            }
+            .float-char{
+                position:absolute;
+                width:10px;
+                height:20px;
+                overflow:hidden;
+            }
+            .f0{color:black}    .f1{color:Maroon}   .f2{color:Green}    .f3{color:Olive}
+            .f4{color:Navy}     .f5{color:Purple}   .f6{color:Teal}     .f7{color:Silver}
+            .fb0{color:Gray}    .fb1{color:Red}     .fb2{color:lime}    .fb3{color:yellow}
+            .fb4{color:blue}    .fb5{color:Fuchsia} .fb6{color:Aqua}    .fb7{color:white}
+            .b0{background-color:black}
+            .b1{background-color:Maroon}
+            .b2{background-color:Green}
+            .b3{background-color:Olive}
+            .b4{background-color:Navy}
+            .b5{background-color:Purple}
+            .b6{background-color:Teal}
+            .b7{background-color:Silver}
+            .bb0{background-color:Gray}
+            .bb1{background-color:Red}
+            .bb2{background-color:lime}
+            .bb3{background-color:yellow}
+            .bb4{background-color:blue}
+            .bb5{background-color:Fuchsia}
+            .bb6{background-color:Aqua}
+            .bb7{background-color:white}
+            .selectable .ui-selecting { background: #FECA40; }
+            .selectable .ui-selected { background: #FECA40; }
+
+        </style>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    </head>
+<body>
+    <div style="width:100%;height:85%;clear: both;">
+        <div class="pannel" style="width:5%;height:100%;background-color:#909090;float:left;text-align: center;">
+            <div>前景</div>
+            <div>
+                <button onclick="setf('f0')" class="select_color b0"></button><button onclick="setf('fb0')" class="select_color bb0"></button>
+            </div>
+            <div>
+                <button onclick="setf('f1')" class="select_color b1"></button><button onclick="setf('fb1')" class="select_color bb1"></button>
+            </div>
+            <div>
+                <button onclick="setf('f2')" class="select_color b2"></button><button onclick="setf('fb2')" class="select_color bb2"></button>
+            </div>
+            <div>
+                <button onclick="setf('f3')" class="select_color b3"></button><button onclick="setf('fb3')" class="select_color bb3"></button>
+            </div>
+            <div>
+                <button onclick="setf('f4')" class="select_color b4"></button><button onclick="setf('fb4')" class="select_color bb4"></button>
+            </div>
+            <div>
+                <button onclick="setf('f5')" class="select_color b5"></button><button onclick="setf('fb5')" class="select_color bb5"></button>
+            </div>
+            <div>
+                <button onclick="setf('f6')" class="select_color b6"></button><button onclick="setf('fb6')" class="select_color bb6"></button>
+            </div>
+            <div>
+                <button onclick="setf('f7')" class="select_color b7"></button><button onclick="setf('fb7')" class="select_color bb7"></button>
+            </div>
+            <div>背景</div>
+            <div><button onclick="setb('b0')" class="select_color b0"></button></div>
+            <div><button onclick="setb('b1')" class="select_color b1"></button></div>
+            <div><button onclick="setb('b2')" class="select_color b2"></button></div>
+            <div><button onclick="setb('b3')" class="select_color b3"></button></div>
+            <div><button onclick="setb('b4')" class="select_color b4"></button></div>
+            <div><button onclick="setb('b5')" class="select_color b5"></button></div>
+            <div><button onclick="setb('b6')" class="select_color b6"></button></div>
+            <div><button onclick="setb('b7')" class="select_color b7"></button></div>
+        </div>
+        <div class="draw" style="float:left">
+            <div class="ansi-block">
+                <div class="select_block">&nbsp;</div>
+                <div class="selectable" style="height: 100%;background-color: black;">           
+                </div>
+            </div>
+        </div>
+        <div id="texta" class="pannel" style=" width:10%;background-color:silver;float:left">
+            <div id="colrow">location:(1,1)</div>
+            <div>
+                <button onclick="gen()" class="select_color b0">新增行數</button>
+            </div>
+        </div>
+    </div>
+    <div style="padding-left:10%;width:90%; height:14%; background-color:#909090;">
+        <br>
+        <button class="sign b0 f7">▏</button>
+        <button class="sign b0 f7">▎</button>
+        <button class="sign b0 f7">▍</button>
+        <button class="sign b0 f7">▋</button>
+        <button class="sign b0 f7">▊</button>
+        <button class="sign b0 f7">▉</button>
+        <button class="sign b0 f7">▁</button>
+        <button class="sign b0 f7">▂</button>
+        <button class="sign b0 f7">▃</button>
+        <button class="sign b0 f7">▄</button>
+        <button class="sign b0 f7">▅</button>
+        <button class="sign b0 f7">▆</button>
+        <button class="sign b0 f7">▇</button>
+        <button class="sign b0 f7">█</button>
+        <button class="sign b0 f7">◤</button> 
+        <button class="sign b0 f7">◣</button> 
+        <button class="sign b0 f7">◥</button>
+        <button class="sign b0 f7">◢</button>
+    </div>
+    <script>
+    var linenum=0;
+    var select_block_x=0;
+    var select_block_y=0;
+    var now_back="b0";
+    var now_front="f7";
+    $(function() {
+        $( ".selectable" ).selectable({
+            distance: 10,
+            tolerance: "touch"
+        });
+    });
+    $(".selectable").click(function(event) {
+        select_block_y=Math.floor((event.pageY-$(".ansi-block").offset().top)/20);
+        select_block_x=Math.floor((event.pageX-$(".ansi-block").offset().left)/10);
+        set_select_block();
+        $(".selectable").removeClass("ui-selected");
+        $(".selectable .block").removeClass("ui-selected");
+        $(".selectable .blockl").removeClass("ui-selected");
+        $(".selectable .blockr").removeClass("ui-selected");
+    });
+    function set_select_block() {
+        $("#colrow").text('location:('+(select_block_y+1)+','+(select_block_x+1)+')');
+        $(".select_block").css('top', select_block_y*20);
+        $(".select_block").css('left', select_block_x*10);
+    }
+    function byteLength(str) {
+      var s = str.length;
+      for (var i=str.length-1; i>=0; i--) {
+        var code = str.charCodeAt(i);
+        if (code > 0x7f && code <= 0x7ff) s++;
+        else if (code > 0x7ff && code <= 0xffff) s+=2;
+        if (code >= 0xDC00 && code <= 0xDFFF) i--;
+      }
+      return s;
+    }
+    function setf(fc) {
+        for(var i=0;i<8;i++){
+            $(".block > .ui-selected").removeClass("f"+i);
+            $(".block > .ui-selected").removeClass("fb"+i);
+            $(".sign").removeClass("f"+i);
+            $(".sign").removeClass("fb"+i);
+        }
+        $(".sign").addClass(fc);
+        $(".block > .ui-selected").addClass(fc);
+        now_front=fc;
+    }
+    function setb(bc) {
+        for(var i=0;i<8;i++){
+            $(".block > .ui-selected").removeClass("b"+i);
+            $(".sign").removeClass("b"+i);
+        }
+        $(".sign").addClass(bc);
+        $(".block > .ui-selected").addClass(bc);
+        now_back=bc;
+    }
+    function setc(sbx,sby,sbc){
+        var char_block=$("#block_x"+sbx+"y"+sby);
+        //clear the before block if this block is the second block
+        if(char_block.hasClass("rtl")){
+            $("#block_x"+(sbx-1)+"y"+sby).html("&nbsp;&nbsp;");
+            $("#block_x"+(sbx-1)+"y"+sby).removeClass("ltr");
+        }
+        //add color
+        for(var i=0;i<8;i++){
+            char_block.removeClass("f"+i);
+            char_block.removeClass("fb"+i);
+            char_block.removeClass("b"+i);
+            char_block.removeClass("rtl");
+            char_block.removeClass("ltr");
+        }
+        char_block.addClass(now_back);
+        char_block.addClass(now_front);
+        char_block.text(sbc);
+
+        if(byteLength(sbc)>1){
+            char_block.addClass("ltr");
+            var char_block_2=$("#block_x"+(sbx+1)+"y"+sby);
+            if((char_block_2.hasClass("ltr"))&&(sbx+2<=80)){
+                $("#block_x"+(sbx+2)+"y"+sby).html("&nbsp;&nbsp;");
+                $("#block_x"+(sbx+2)+"y"+sby).removeClass("rtl");
+            }
+            for(var i=0;i<8;i++){
+                char_block_2.removeClass("f"+i);
+                char_block_2.removeClass("fb"+i);
+                char_block_2.removeClass("b"+i);
+                char_block_2.removeClass("rtl");
+                char_block_2.removeClass("ltr");
+            }
+            char_block_2.addClass(now_back);
+            char_block_2.addClass(now_front);
+            char_block_2.text(sbc);
+            char_block_2.addClass("rtl");
+        }
+    }
+   $(".sign").click(function() {
+        if(select_block_x+1==80){return;}
+        setc((select_block_x+1),(select_block_y+1),$(this).text());
+    });
+
+    $(document).keydown(function(e) {
+        console.log(e.keyCode);
+        if(e.which == 37) {
+            console.log("left");
+            //arrow left
+            if((select_block_x+1)>1){
+                select_block_x-=1;
+                set_select_block();
+            }
+        }else if(e.which == 38) {
+            console.log("up");
+            //arrow up
+            if((select_block_y+1)>1){
+                select_block_y-=1;
+                set_select_block();
+            }
+        }else if(e.which == 39) {
+            console.log("right");
+            //arrow right
+            if((select_block_x+1)<80){
+                select_block_x+=1;
+                set_select_block();
+            }
+        }else if(e.which == 40) {
+            console.log("down");
+            //arrow down
+            if((select_block_y+1)<linenum){
+                select_block_y+=1;
+                set_select_block();
+            }
+        }
+    });
+
+    function gen(){
+        linenum+=1;
+        var tmphtml='<div class="ansi-line" id=line"'+linenum+'">\n';
+        for(var i=1;i<=40;i++){
+            tmphtml+='<span class="block" id="block_d'+i+'"><span id="block_x'+(i*2-1)+"y"+linenum+'" class="float-char f0 b0 blockl">&nbsp;&nbsp;</span><span id="block_x'+(i*2)+"y"+linenum+'" class="float-char f0 b0 blockr">&nbsp;&nbsp;</span></span>\n';
+        }
+        tmphtml+='</div>\n';
+        $(".selectable").append(tmphtml);
+    }
+    </script>
+    </body>
+</html>

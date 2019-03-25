@@ -1,0 +1,56 @@
+{"frames": [
+{
+	"filename": "SwordMaster",
+	"frame": {"x":0,"y":0,"w":120,"h":130},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":120,"h":130},
+	"sourceSize": {"w":120,"h":130},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Mage",
+	"frame": {"x":121,"y":0,"w":120,"h":130},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":120,"h":130},
+	"sourceSize": {"w":120,"h":130},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Paladin",
+	"frame": {"x":241,"y":0,"w":120,"h":130},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":120,"h":130},
+	"sourceSize": {"w":120,"h":130},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Priest",
+	"frame": {"x":361,"y":0,"w":120,"h":130},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":120,"h":130},
+	"sourceSize": {"w":120,"h":130},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Slime",
+	"frame": {"x":0,"y":131,"w":120,"h":130},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":120,"h":130},
+	"sourceSize": {"w":120,"h":130},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Octopus",
+	"frame": {"x":121,"y":131,"w":120,"h":130},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":120,"h":130},
+	"sourceSize": {"w":120,"h":130},
+	"pivot": {"x":0.5,"y":0.5}
+}]
+}

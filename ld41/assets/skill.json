@@ -1,0 +1,20 @@
+{"frames": [
+{
+	"filename": "Heal",
+	"frame": {"x":0,"y":0,"w":120,"h":130},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":120,"h":130},
+	"sourceSize": {"w":120,"h":130},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Shield",
+	"frame": {"x":121,"y":0,"w":120,"h":130},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":120,"h":130},
+	"sourceSize": {"w":120,"h":130},
+	"pivot": {"x":0.5,"y":0.5}
+}]
+}
